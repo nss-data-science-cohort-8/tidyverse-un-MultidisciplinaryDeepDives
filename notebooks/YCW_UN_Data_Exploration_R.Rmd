@@ -1,0 +1,101 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+Create a new R Notebook to complete this exercise.
+
+1. Using the read_csv() function, read the GDP dataset into your notebook as a tibble called gdp_df. After reading it in, inspect the first 10 rows and then inspect the last 10 rows.
+
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+```
+
+
+```{r}
+gdp_df <- read_csv("../data/gdp_per_capita.csv")
+
+slice_head(gdp_df, n = 10)
+```
+
+```{r}
+slice_tail(gdp_df, n = 10)
+```
+2. Drop the 'Value Footnotes' column, and rename the remaining columns to 'Country', 'Year', and 'GDP_Per_Capita'.
+
+
+```{r}
+gdp_df <- select(gdp_df, -`Value Footnotes`)
+
+gdp_df <- rename(gdp_df, Country = "Country or Area", GDP_Per_Capita = Value)
+```
+
+
+3. Which years are represented in this dataset? How many observations are there per year? Make a plot to view the number of observations per year.
+
+```{r}
+Count_by_Yr <- gdp_df |> 
+  count(Year) 
+Count_by_Yr <- rename(Count_by_Yr, Count=n)
+
+print(Count_by_Yr)
+```
+```{r}
+select(Count_by_Yr, Year)
+
+# result yielded here is a single column tibble
+```
+
+```{r}
+pull(Count_by_Yr, Year)
+
+# result yielded is a row vector
+```
+
+
+
+
+```{r}
+ggplot(Count_by_Yr, aes(x=Year, y=Count)) +
+  geom_col()
+```
+
+
+4. How many countries are represented in this dataset? Which countries have the fewest observations?
+
+```{r}
+
+Count_by_Country <- gdp_df |> 
+  count(Country)
+Count_by_Country <- rename(Count_by_Country, Count=n)  
+Count_by_Country <- arrange(Count_by_Country, Count)
+
+print(Count_by_Country)
+
+```
+
+
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
