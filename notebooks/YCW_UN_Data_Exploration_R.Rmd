@@ -88,8 +88,55 @@ Count_by_Country <- arrange(Count_by_Country, Count)
 print(Count_by_Country)
 
 ```
+Ans: Djibouti, Somalia, Turks and Caicos Islands and Sint Maarten (Dutch part) have the fewest observations.
 
 
+
+5. Create a new tibble by subsetting gdp_df to just the year 2021. Call this new tibble gdp_2021.
+
+```{r}
+
+gdp_2021 <- filter(gdp_df, Year == 2021)
+gdp_2021
+
+```
+
+
+ 6. Use summary() to find the summary statistics for GDP per capita in 2021.
+
+```{r}
+summary(gdp_2021)
+```
+
+
+
+7. Create a histogram of GDP Per Capita numbers for 2021 (you may wish to adjust the number of bins for your histogram).
+
+```{r}
+
+ggplot(gdp_2021, aes(x=Country, y=GDP_Per_Capita)) +
+  geom_col()
+
+```
+8. Find the top 5 counties and bottom 5 countries by GDP per capita in 2021.
+
+```{r}
+gdp_2021 <- arrange(gdp_2021, GDP_Per_Capita)
+slice_tail(gdp_2021, n = 6)
+```
+```{r}
+slice_head(gdp_2021, n = 9)
+```
+
+
+
+9. Now, return to the full dataset, gdp_df. Pivot the data for 1990 and 2021 (using pivot_wider() function) so that each row corresponds to a country, each column corresponds to a year, and the values in the table give the GDP_Per_Capita amount. Drop any rows that are missing values for either 1990 or 2021. Save the result to a tibble named gdp_pivoted.
+
+```{r}
+
+
+
+```
 
 
 
