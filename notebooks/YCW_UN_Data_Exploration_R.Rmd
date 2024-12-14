@@ -346,10 +346,10 @@ gdp_le_2021_count
 
 ```{r}
 
-gdp_le_2021_LE <- gdp_le_2021 |> 
+gdp_le_2021_DescLE <- gdp_le_2021 |> 
         arrange(desc(Life_Expectancy))  
        # slice_head(n=5)
-gdp_le_2021_LE
+gdp_le_2021_DescLE
 
 ```
 ```{r}
@@ -370,7 +370,7 @@ ggplot(GDP_LE_Top3_Countries, aes(x=Year, y=Life_Expectancy, color=as.factor(Cou
 
 ```{r}
 
-ggplot(gdp_le_2021_LE) +
+ggplot(gdp_le_2021_DescLE) +
     geom_point(aes(x = GDP_Per_Capita, y = Life_Expectancy))
 
 
@@ -383,7 +383,7 @@ Life Expectancy and GDP per Capita have a fairly strong positive correlation wit
 
 ```{r}
 
-Corr_GDP_LE_2021 <- gdp_le_2021_LE |> 
+Corr_GDP_LE_2021 <- gdp_le_2021_DescLE |> 
   select(Life_Expectancy, GDP_Per_Capita)  |>  
   correlate()
 
@@ -395,15 +395,34 @@ Corr_GDP_LE_2021
 
 25. Add a column to gdp_le_2021 and calculate the logarithm of GDP per capita. Find the correlation between the log of GDP per capita and life expectancy. How does this compare to the calculation in the previous part? Look at a scatter plot to see if the result of this calculation makes sense.
 
+The positive correlation has been strengthened from 0.7553758 to 0.9980081. 
+
 ```{r}
 
+gdp_le_2021_DescLE_Log <- gdp_le_2021_DescLE |> 
+ mutate(Log_GDP_Per_Capita = log(Life_Expectancy))
 
- mutate(Log_GDP_Per_Capita = count/sum(count)) 
+gdp_le_2021_DescLE_Log
+
+```
+
+```{r}
+
+ggplot(gdp_le_2021_DescLE_Log) +
+    geom_point(aes(x = Log_GDP_Per_Capita, y = Life_Expectancy))
 
 ```
 
 
+```{r}
 
+Corr_LogGDP_LE_2021 <- gdp_le_2021_DescLE_Log |> 
+  select(Life_Expectancy, Log_GDP_Per_Capita)  |>  
+  correlate()
+
+Corr_LogGDP_LE_2021
+
+```
 
 
 
